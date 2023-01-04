@@ -15,7 +15,6 @@ def CO2_DSL_regress(df,init_guess=[]):
     
     Inputs:
         - df          = dataframe containing the data to regress against
-        - tol         = regression precision tolerance
         - init_guess  = initial guess for model parameters (dictionary, optional)
     Outputs: 
         - result = Object containing the optimized parameters and several goodness-of-fit statistics. 
@@ -143,7 +142,9 @@ def CO2_DSL_regress(df,init_guess=[]):
 def CO2_DSL_regress_BACKUP(df,tol=1e-12,norm_factor=1,maxiter=100,disp=False,init_guess=[]):
     """
     Function to determine the initial parameters for a DSL model based on the experimental or GCMC data passed in.
-    It is assumed that the maximum loading value is close to saturation.
+    It is assumed that the maximum loading value is close to saturation. 
+    This is a backup function which uses scipy's optimise function rather than lmfit to perform the regression 
+    in case lmfit fails.
     
     Inputs:
         - df          = dataframe containing the data of an individual researcher at a single temperature
@@ -204,7 +205,6 @@ def CO2_DSL_regress_BACKUP(df,tol=1e-12,norm_factor=1,maxiter=100,disp=False,ini
         interpK_H = min(max(LowerK_H,K_H),UpperK_H); loginterpK_H = np.log(interpK_H)
         H1_guess = 17500 +((interpK_H-LowerK_H)*((43500-17500)/(UpperK_H-LowerK_H)))        
         H2_guess = 0.9*H1_guess
-
         # H1_guess = np.random.uniform(17000,45000)
         # H2_guess = 0.9*H1_guess                     # create H2 = H1
 
@@ -414,7 +414,7 @@ def N2_DSL_regress(df,CO2_params,N2_nonlin_tol=0.85,tol=1e-15,norm_factor=1,maxi
             q_s1 = init_guess[0]
             q_s2 = init_guess[1]
         else:
-            raise Exception('''You have not supplied an initial guess vector for the N2 DSL model which is incompatible with the 
+            raise Exception('''You have supplied an initial guess vector for the N2 DSL model which is incompatible with the 
                             the current function. Please omit submitting a parameter vector (in which case an estimate 
                             of the model parameters will be made), submit a parameter vector that contains an initial 
                             guess for [b01,b02,deltaH1,deltaH2], or submit a parameter vector that contains an initial guess 
@@ -477,7 +477,7 @@ def N2_DSL_regress(df,CO2_params,N2_nonlin_tol=0.85,tol=1e-15,norm_factor=1,maxi
             
 #             print('new tol = {}'.format(tol))
             print(failure_message)
-        
+            
         if failure_message == 'Maximum number of function evaluations has been exceeded.':
             max_iter += 25        # Increase the number of function evaluations
     
