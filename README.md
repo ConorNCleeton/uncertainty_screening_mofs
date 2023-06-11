@@ -1,7 +1,7 @@
 # uncertainty_screening_mofs
 
 <p align="center">
-  <img src="https://github.com/ConorNCleeton/uncertainty_screening_mofs/blob/main/images/TOC.png" height="150">
+  <img src="https://github.com/ConorNCleeton/uncertainty_screening_mofs/blob/main/images/TOC.png" height="450">
 </p>
 
 
