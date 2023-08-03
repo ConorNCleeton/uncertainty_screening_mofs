@@ -27,14 +27,14 @@ for material = 1:length(alwaysDOE)
     vars_df = vars_struct.data; % load in ANN Pareto data to use as initial seed
     for FF = 1:length(FF_dfs)
         N = 30;     
-        type = 'ProcessEvaluation';
+        type = 'ProcessEvaluation'; % alternatively choose EconomicEvaluation
         data = FF_dfs{FF};
         material_data = table2array(data(strcmp(data.material,material_name),2:15));
         FF_name       = data(strcmp(data.material,material_name),:).Forcefield{1};
         m = material_data(3:end);
         
         % Isotherm params must be in units of Pa for b0 parameters, deltaH
-        % must also be negative J/mol, 0 flat at the end indicates the
+        % must also be negative J/mol, 0 flag at the end indicates the
         % isotherm parameters are in units of pressure and not
         % concentration
         IsothermParams = [m(1:2),m(3:4).*1e-5,-m(5:6),m(7:8),m(9:10).*1e-5,-m(11:12),0];
